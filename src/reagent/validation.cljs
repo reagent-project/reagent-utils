@@ -60,7 +60,7 @@
   (try
     (js/parseFloat v)
     true
-    (catch :default  e
+    (catch :default e
       false)))
 
 
