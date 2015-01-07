@@ -45,15 +45,6 @@
     false
     (matches-regex? v #"(?i)[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")))
 
-
-(defn valid-file?
-  "Returns true if a valid file was supplied"
-  [m]
-  (and (:size m)
-       (> (:size m) 0)
-       (:filename m)))
-
-
 (defn valid-number?
   "Returns true if the string can be parsed to a Long"
   [v]
@@ -63,13 +54,11 @@
     (catch :default e
       false)))
 
-
 (defn greater-than?
   "Returns true if the string represents a number > given."
   [v n]
   (and (valid-number? v)
        (> (js/parseFloat v) n)))
-
 
 (defn less-than?
   "Returns true if the string represents a number < given."

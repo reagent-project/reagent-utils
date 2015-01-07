@@ -4,9 +4,19 @@
             [cljs.reader :as reader]))
 
 (defn set!
-  "sets a cookie, the max-age defaults to -1 for session cookie"
-  [k content & [max-age]]
-  (.set goog.net.cookies (name k) (pr-str content) (or max-age -1) nil nil true))
+  "sets a cookie, the max-age for session cookie
+   following optional parameter may be passed in as a map:
+   :max-age - defaults to -1
+   :path - path of the cookie, defaults to the full request path
+   :domain - domain of the cookie, when null the browser will use the full request host name
+   :secure? - boolean specifying whether the cookie should only be sent over a secure channel
+  "
+  [k content & [{:keys [max-age path domain secure?]} :as opts]]
+  (let [k (name k)
+        content (pr-str content)]
+    (if opts
+      (.set goog.net.cookies k content)
+      (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure)))))
 
 (defn- read-value [v]
   (when v
