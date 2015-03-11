@@ -6,4 +6,4 @@
   :clojurescript? true
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2322"]
-                 [reagent "0.4.2"]])
+                 [reagent "0.5.0"]])
