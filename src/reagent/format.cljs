@@ -2,6 +2,8 @@
   (:refer-clojure :exclude [hash])
   (:require
     [clojure.string :as s]
+    [goog.string :as gstring]
+    [goog.string.format]
     [goog.i18n.DateTimeFormat :as dtf]
     [goog.i18n.NumberFormat :as nf]
     [goog.i18n.NumberFormatSymbols :as symbols]
@@ -30,6 +32,17 @@
       (apply str (repeat l \space))
       text
       (apply str (repeat r \space)))))
+
+(defn format
+  "Formats a string using goog.string.format.
+   e.g: (format \"Cost: %.2f\" 10.0234)"
+  [fmt & args]
+  (apply gstring/format fmt args))
+
+(defn printf
+  "Prints formatted output, as per format"
+  [fmt & args]
+  (print (apply format fmt args)))
 
 (defn currency-format
   "formats currency using the current locale
