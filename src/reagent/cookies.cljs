@@ -14,7 +14,7 @@
   [k content & [{:keys [max-age path domain secure?]} :as opts]]
   (let [k (name k)
         content (pr-str content)]
-    (if opts
+    (if-not opts
       (.set goog.net.cookies k content)
       (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure?)))))
 
