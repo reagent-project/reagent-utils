@@ -1,9 +1,15 @@
-(defproject reagent-utils "0.1.6"
+(defproject reagent-utils "0.1.7"
   :description "various utility functions for Reagent based projects"
   :url "https://github.com/reagent-project/reagent-utils"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :clojurescript? true
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2322"]
-                 [reagent "0.5.0"]])
+
+
+  :plugins [[lein-codox "0.9.1"]]
+  :codox {:language :clojurescript
+          :exclude clojure.string}
+  :profiles {:dev
+             {:dependencies [[org.clojure/clojure "1.7.0"]
+                             [org.clojure/clojurescript "1.7.170"]
+                             [reagent "0.5.1"]]}})
