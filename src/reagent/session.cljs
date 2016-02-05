@@ -43,7 +43,7 @@
    a new nested structure. If any levels do not exist,
    hash-maps will be created."
   [ks v]
-  (clojure.core/swap! state #(assoc-in % ks v)))
+  (clojure.core/swap! state assoc-in  ks v))
 
 (defn get!
   "Destructive get from the session. This returns the current value of the key
