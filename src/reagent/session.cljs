@@ -4,10 +4,16 @@
 
 (def state (atom {}))
 
+(defn cursor 
+  "Returns a cursor from the state atom."
+  [ks]
+  (reagent/cursor state ks))
+
 (defn get
   "Get the key's value from the session, returns nil if it doesn't exist."
   [k & [default]]
-  (clojure.core/get @state k default))
+  (let [temp-a (cursor [k])]
+    (or @temp-a default)))
 
 (defn put! [k v]
   (clojure.core/swap! state assoc k v))
@@ -16,7 +22,7 @@
  "Gets the value at the path specified by the vector ks from the session,
   returns nil if it doesn't exist."
   [ks & [default]]
-  (clojure.core/get-in @state ks default))
+  (or @(cursor ks) default))
 
 (defn swap!
   "Replace the current session's value with the result of executing f with
@@ -56,7 +62,7 @@
   "Destructive get from the session. This returns the current value of the path
   specified by the vector ks and then removes it from the session."
   [ks & [default]]
-    (let [cur (clojure.core/get-in @state ks default)]
+    (let [cur (get-in ks default)]
       (assoc-in! ks nil)
       cur))
 
