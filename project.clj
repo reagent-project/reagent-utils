@@ -1,4 +1,4 @@
-(defproject reagent-utils "0.1.7"
+(defproject reagent-utils "0.1.8"
   :description "various utility functions for Reagent based projects"
   :url "https://github.com/reagent-project/reagent-utils"
   :license {:name "Eclipse Public License"
