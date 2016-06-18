@@ -13,7 +13,8 @@
   "Get the key's value from the session, returns nil if it doesn't exist."
   [k & [default]]
   (let [temp-a (cursor [k])]
-    (or @temp-a default)))
+    (if-not (nil? @temp-a)
+      @temp-a default)))
 
 (defn put! [k v]
   (clojure.core/swap! state assoc k v))
