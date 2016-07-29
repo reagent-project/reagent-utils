@@ -22,7 +22,6 @@
   (.digest hasher))
 
 (defn hash-bytes [s hash-type]
-  (.log js/console (= :md5 hash-type))
   (digest
     (case hash-type
       :md5 (goog.crypt.Md5.)
