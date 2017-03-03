@@ -18,16 +18,25 @@
       (.set goog.net.cookies k content)
       (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure?)))))
 
-(defn- read-value [v]
+(defn- read-edn-value [v]
   (when v
     (reader/read-string v)))
 
+(defn- read-raw-value [v] v)
+
+(defn- get-value
+  [k r default]
+  (or (->> (name k) (.get goog.net.cookies) r) default))
+
 (defn get
-  "gets the value at the key, optional default when value is not found"
+  "gets the value at the key (as edn), optional default when value is not found"
   [k & [default]]
-  (or
-    (->> (name k) (.get goog.net.cookies) read-value)
-    default))
+  (get-value k read-edn-value default))
+
+(defn get-raw
+  "gets the value at the key (as string), optional default when value is not found"
+  [k & [default]]
+  (get-value k read-raw-value default))
 
 (defn contains-key?
   "is the key present in the cookies"
@@ -50,10 +59,14 @@
   (map keyword (.getKeys goog.net.cookies)))
 
 (defn vals
-  "returns cookie values"
+  "returns cookie values (as edn)"
   []
-  (map read-value (.getValues goog.net.cookies)))
+  (map read-edn-value (.getValues goog.net.cookies)))
 
+(defn raw-vals
+  "returns cookie values (as strings)"
+  []
+  (map read-raw-value (.getValues goog.net.cookies)))
 
 (defn empty?
   "true if no cookies are set"
