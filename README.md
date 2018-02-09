@@ -10,16 +10,19 @@ This library provides a number of convenience helpers for use with Reagent.
 </pre></div></div><div class="public anchor" id="var-contains-val.3F"><h3>contains-val?</h3><div class="usage"><code>(contains-val? v)</code></div><div class="doc"><pre class="plaintext">is the value present in the cookies (as string)
 </pre></div></div><div class="public anchor" id="var-count"><h3>count</h3><div class="usage"><code>(count)</code></div><div class="doc"><pre class="plaintext">returns the number of cookies
 </pre></div></div><div class="public anchor" id="var-empty.3F"><h3>empty?</h3><div class="usage"><code>(empty?)</code></div><div class="doc"><pre class="plaintext">true if no cookies are set
-</pre></div></div><div class="public anchor" id="var-get"><h3>get</h3><div class="usage"><code>(get k &amp; [default])</code></div><div class="doc"><pre class="plaintext">gets the value at the key, optional default when value is not found
+</pre></div></div><div class="public anchor" id="var-get"><h3>get</h3><div class="usage"><code>(get k &amp; [default])</code></div><div class="doc"><pre class="plaintext">gets the value at the key (as edn), optional default when value is not found
+</pre></div></div><div class="public anchor" id="var-get-raw"><h3>get-raw</h3><div class="usage"><code>(get-raw k &amp; [default])</code></div><div class="doc"><pre class="plaintext">gets the value at the key (as string), optional default when value is not found
 </pre></div></div><div class="public anchor" id="var-keys"><h3>keys</h3><div class="usage"><code>(keys)</code></div><div class="doc"><pre class="plaintext">returns all the keys for the cookies
+</pre></div></div><div class="public anchor" id="var-raw-vals"><h3>raw-vals</h3><div class="usage"><code>(raw-vals)</code></div><div class="doc"><pre class="plaintext">returns cookie values (as strings)
 </pre></div></div><div class="public anchor" id="var-remove.21"><h3>remove!</h3><div class="usage"><code>(remove! k)</code></div><div class="doc"><pre class="plaintext">removes a cookie
-</pre></div></div><div class="public anchor" id="var-set.21"><h3>set!</h3><div class="usage"><code>(set! k content &amp; [{:keys [max-age path domain secure?]} :as opts])</code></div><div class="doc"><pre class="plaintext">sets a cookie, the max-age for session cookie
-following optional parameter may be passed in as a map:
+</pre></div></div><div class="public anchor" id="var-set.21"><h3>set!</h3><div class="usage"><code>(set! k content &amp; [{:keys [max-age path domain secure? raw?]} :as opts])</code></div><div class="doc"><pre class="plaintext">sets a cookie, the max-age for session cookie
+following optional parameters may be passed in as a map:
 :max-age - defaults to -1
 :path - path of the cookie, defaults to the full request path
 :domain - domain of the cookie, when null the browser will use the full request host name
 :secure? - boolean specifying whether the cookie should only be sent over a secure channel
-</pre></div></div><div class="public anchor" id="var-vals"><h3>vals</h3><div class="usage"><code>(vals)</code></div><div class="doc"><pre class="plaintext">returns cookie values
+:raw? - boolean specifying whether content should be stored raw, or as EDN
+</pre></div></div><div class="public anchor" id="var-vals"><h3>vals</h3><div class="usage"><code>(vals)</code></div><div class="doc"><pre class="plaintext">returns cookie values (as edn)
 </pre></div></div></div>
 
 <div class="namespace-docs" id="content" style="left: 392px;"><h1 class="anchor" id="top">reagent.crypt</h1><div class="doc"><pre class="plaintext"></pre></div><div class="public anchor" id="var-bytes-.3Ehex"><h3>bytes-&gt;hex</h3><div class="usage"><code>(bytes-&gt;hex bytes-in)</code></div><div class="doc"><pre class="plaintext">convert bytes to hex

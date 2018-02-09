@@ -5,15 +5,18 @@
 
 (defn set!
   "sets a cookie, the max-age for session cookie
-   following optional parameter may be passed in as a map:
+   following optional parameters may be passed in as a map:
    :max-age - defaults to -1
    :path - path of the cookie, defaults to the full request path
    :domain - domain of the cookie, when null the browser will use the full request host name
    :secure? - boolean specifying whether the cookie should only be sent over a secure channel
+   :raw? - boolean specifying whether content should be stored raw, or as EDN
   "
-  [k content & [{:keys [max-age path domain secure?]} :as opts]]
+  [k content & [{:keys [max-age path domain secure? raw?]} :as opts]]
   (let [k (name k)
-        content (pr-str content)]
+        content (if raw?
+                  (str content)
+                  (pr-str content))]
     (if-not opts
       (.set goog.net.cookies k content)
       (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure?)))))
