@@ -18,6 +18,10 @@
   (testing "get raw provides default value if cookie not set"
     (is (= (cookies/get-raw :non-existent "default-val") "default-val")))
 
+  (testing "set writes raw string to cookie"
+    (cookies/set! :some-cookie "123abc" {:raw? true})
+    (is (= (.get goog.net.cookies "some-cookie") "123abc")))
+
   (testing "get reads raw string from cookie"
     (.set goog.net.cookies "some-cookie" "123abc")
     (is (= (cookies/get-raw :some-cookie) "123abc")))
