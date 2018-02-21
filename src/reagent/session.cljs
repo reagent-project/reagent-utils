@@ -78,7 +78,7 @@
     #(apply (partial update % k f) args)))
   
 (defn update-in!
-  "'Updates a value in the session, where ks is a
+  "Updates a value in the session, where ks is a
    sequence of keys and f is a function that will
    take the old value along with any supplied args and return
    the new value. If any levels do not exist, hash-maps

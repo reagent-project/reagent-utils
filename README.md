@@ -54,7 +54,7 @@ specified by the vector ks and then removes it from the session.</pre></div></di
 the current value and args.</pre></div></div><div class="public anchor" id="var-update.21"><h3>update!</h3><div class="usage"><code>(update! k f &amp; args)</code></div><div class="doc"><pre class="plaintext">Updates a value in session where k is a key and f
 is the function that takes the old value along with any
 supplied args and return the new value. If key is not
-present it will be added.</pre></div></div><div class="public anchor" id="var-update-in.21"><h3>update-in!</h3><div class="usage"><code>(update-in! ks f &amp; args)</code></div><div class="doc"><pre class="plaintext">'Updates a value in the session, where ks is a
+present it will be added.</pre></div></div><div class="public anchor" id="var-update-in.21"><h3>update-in!</h3><div class="usage"><code>(update-in! ks f &amp; args)</code></div><div class="doc"><pre class="plaintext">Updates a value in the session, where ks is a
 sequence of keys and f is a function that will
 take the old value along with any supplied args and return
 the new value. If any levels do not exist, hash-maps
