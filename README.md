@@ -14,7 +14,7 @@ This library provides a number of convenience helpers for use with Reagent.
 </pre></div></div><div class="public anchor" id="var-get-raw"><h3>get-raw</h3><div class="usage"><code>(get-raw k &amp; [default])</code></div><div class="doc"><pre class="plaintext">gets the value at the key (as string), optional default when value is not found
 </pre></div></div><div class="public anchor" id="var-keys"><h3>keys</h3><div class="usage"><code>(keys)</code></div><div class="doc"><pre class="plaintext">returns all the keys for the cookies
 </pre></div></div><div class="public anchor" id="var-raw-vals"><h3>raw-vals</h3><div class="usage"><code>(raw-vals)</code></div><div class="doc"><pre class="plaintext">returns cookie values (as strings)
-</pre></div></div><div class="public anchor" id="var-remove.21"><h3>remove!</h3><div class="usage"><code>(remove! k)</code></div><div class="doc"><pre class="plaintext">removes a cookie
+</pre></div></div><div class="public anchor" id="var-remove.21"><h3>remove!</h3><div class="usage"><code>(remove! k)</code><code>(remove! k path domain)</code></div><div class="doc"><pre class="plaintext">removes a cookie, optionally for a specific path and/or domain
 </pre></div></div><div class="public anchor" id="var-set.21"><h3>set!</h3><div class="usage"><code>(set! k content &amp; [{:keys [max-age path domain secure? raw?]} :as opts])</code></div><div class="doc"><pre class="plaintext">sets a cookie, the max-age for session cookie
 following optional parameters may be passed in as a map:
 :max-age - defaults to -1
