@@ -77,9 +77,11 @@
   (.isEmpty goog.net.cookies))
 
 (defn remove!
-  "removes a cookie"
-  [k]
-  (.remove goog.net.cookies (name k)))
+  "removes a cookie, optionally for a specific path and/or domain"
+  ([k]
+   (.remove goog.net.cookies (name k)))
+  ([k path domain]
+   (.remove goog.net.cookies (name k) path domain)))
 
 (defn clear!
   "removes all cookies"
