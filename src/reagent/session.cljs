@@ -2,9 +2,9 @@
   (:refer-clojure :exclude [get get-in reset! swap!])
   (:require [reagent.core :as reagent :refer [atom]]))
 
-(def state (atom {}))
+(defonce state (atom {}))
 
-(defn cursor 
+(defn cursor
   "Returns a cursor from the state atom."
   [ks]
   (reagent/cursor state ks))
@@ -12,9 +12,8 @@
 (defn get
   "Get the key's value from the session, returns nil if it doesn't exist."
   [k & [default]]
-  (let [temp-a (cursor [k])]
-    (if-not (nil? @temp-a)
-      @temp-a default)))
+  (let [temp-a @(cursor [k])]
+    (if-not (nil? temp-a) temp-a default)))
 
 (defn put! [k v]
   (clojure.core/swap! state assoc k v))
@@ -23,7 +22,8 @@
  "Gets the value at the path specified by the vector ks from the session,
   returns nil if it doesn't exist."
   [ks & [default]]
-  (or @(cursor ks) default))
+  (let [result @(cursor ks)]
+    (if-not (nil? result) result default)))
 
 (defn swap!
   "Replace the current session's value with the result of executing f with
@@ -76,7 +76,7 @@
   (clojure.core/swap!
     state
     #(apply (partial update % k f) args)))
-  
+
 (defn update-in!
   "Updates a value in the session, where ks is a
    sequence of keys and f is a function that will

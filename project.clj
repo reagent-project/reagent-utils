@@ -1,4 +1,4 @@
-(defproject reagent-utils "0.3.1"
+(defproject reagent-utils "0.3.2"
   :description "various utility functions for Reagent based projects"
   :url "https://github.com/reagent-project/reagent-utils"
   :license {:name "Eclipse Public License"
@@ -12,9 +12,9 @@
           :exclude  clojure.string}
 
   :profiles {:dev
-             {:dependencies [[org.clojure/clojure "1.7.0"]
-                             [org.clojure/clojurescript "1.7.170"]
-                             [reagent "0.7.0"]]
+             {:dependencies [[org.clojure/clojure "1.10.0"]
+                             [org.clojure/clojurescript "1.10.439"]
+                             [reagent "0.8.1"]]
               :plugins      [[lein-doo "0.1.7"]]}}
 
   :cljsbuild {:builds
