@@ -1,4 +1,4 @@
-(defproject reagent-utils "0.3.2"
+(defproject reagent-utils "0.3.3"
   :description "various utility functions for Reagent based projects"
   :url "https://github.com/reagent-project/reagent-utils"
   :license {:name "Eclipse Public License"
@@ -6,7 +6,7 @@
   :clojurescript? true
 
   :plugins [[lein-codox "0.9.1"]
-            [lein-cljsbuild "1.1.1"]]
+            [lein-cljsbuild "1.1.7"]]
 
   :codox {:language :clojurescript
           :exclude  clojure.string}
