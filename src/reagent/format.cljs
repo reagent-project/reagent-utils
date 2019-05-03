@@ -5,8 +5,6 @@
     [goog.string :as gstring]
     [goog.string.format]
     [goog.i18n.DateTimeFormat :as dtf]
-    [goog.i18n.NumberFormat :as nf]
-    [goog.i18n.NumberFormatSymbols :as symbols]
     [goog.crypt :as crypt]
     [goog.crypt.Md5 :as Md5]
     [goog.crypt.Sha1 :as Sha1]
