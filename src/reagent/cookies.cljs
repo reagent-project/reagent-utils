@@ -23,6 +23,7 @@
    :domain - domain of the cookie, when null the browser will use the full request host name
    :secure? - boolean specifying whether the cookie should only be sent over a secure channel
    :raw? - boolean specifying whether content should be stored raw, or as EDN
+   :same-site - A keyword of either :strict, :lax, or :none (defaults to :none). Only supported when `supports-same-site?` is true
   "
   [k content & [{:keys [max-age path domain secure? raw? same-site] :as opts}]]
   (let [k (name k)
