@@ -4,7 +4,7 @@
     [clojure.string :as str]
     [reagent.cookies :as cookies]))
 
-(defn stub-cookies [f]
+(defn- stub-cookies [f]
   (let [old (.getInstance goog.net.Cookies)
         stub (new goog.net.Cookies nil)]
     (set! goog.net.cookies stub) ;NOTE the google closure library marks this method as deprecated
