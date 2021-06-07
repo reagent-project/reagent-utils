@@ -1,7 +1,19 @@
 (ns reagent.cookies
   (:refer-clojure :exclude [count get keys vals empty? reset!])
-  (:require [goog.net.cookies :as cks]
-            [cljs.reader :as reader]))
+  (:require
+    [cljs.reader :as reader]
+    [goog.net.cookies :as cks]))
+
+;Pre Google Closure library v20200204
+(defonce ^:private legacy-setter?
+  (delay (= 6 (.-length goog.net.cookies.set))))
+
+(defn supports-same-site?
+  "True if the the underlying version of `goog.net.cookies` supports the same-site attribute
+   when setting cookies
+  "
+  []
+  (not @legacy-setter?))
 
 (defn set!
   "sets a cookie, the max-age for session cookie
@@ -11,15 +23,29 @@
    :domain - domain of the cookie, when null the browser will use the full request host name
    :secure? - boolean specifying whether the cookie should only be sent over a secure channel
    :raw? - boolean specifying whether content should be stored raw, or as EDN
+   :same-site - A keyword of either :strict, :lax, or :none (defaults to :none). Only supported when `supports-same-site?` is true
   "
-  [k content & [{:keys [max-age path domain secure? raw?]} :as opts]]
+  [k content & [{:keys [max-age path domain secure? raw? same-site] :as opts}]]
   (let [k (name k)
         content (if raw?
                   (str content)
                   (pr-str content))]
-    (if-not opts
+    (cond
+      (not (dissoc opts :raw?))
       (.set goog.net.cookies k content)
-      (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure?)))))
+
+      @legacy-setter?
+      (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure?))
+
+      :else
+      (.set goog.net.cookies k content #js{:maxAge   (or max-age -1)
+                                           :path     path
+                                           :domain   domain
+                                           :sameSite (condp = same-site
+                                                       :strict (.-STRICT goog.net.Cookies.SameSite)
+                                                       :lax (.-LAX goog.net.Cookies.SameSite)
+                                                       (.-NONE goog.net.Cookies.SameSite))
+                                           :secure   (boolean secure?)}))))
 
 (defn- read-edn-value [v]
   (when v
