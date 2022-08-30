@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [count get keys vals empty? reset!])
   (:require
     [cljs.reader :as reader]
-    [goog.net.cookies :as cks]))
+    [goog.net.cookies]
+    [goog.net.Cookies :refer [SetOptions]]))
 
 ;Pre Google Closure library v20200204
 (defonce ^:private legacy-setter?
@@ -38,14 +39,16 @@
       (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure?))
 
       :else
-      (.set goog.net.cookies k content #js{:maxAge   (or max-age -1)
-                                           :path     path
-                                           :domain   domain
-                                           :sameSite (condp = same-site
-                                                       :strict (.-STRICT goog.net.Cookies.SameSite)
-                                                       :lax (.-LAX goog.net.Cookies.SameSite)
-                                                       (.-NONE goog.net.Cookies.SameSite))
-                                           :secure   (boolean secure?)}))))
+      (.set goog.net.cookies k content
+            (doto (SetOptions.)
+              (set! -maxAge (or max-age -1))
+              (set! -path path)
+              (set! -domain domain)
+              (set! -secure (boolean secure?))
+              (set! -sameSite (condp = same-site
+                                :strict (.-STRICT goog.net.Cookies.SameSite)
+                                :lax (.-LAX goog.net.Cookies.SameSite)
+                                (.-NONE goog.net.Cookies.SameSite))))))))
 
 (defn- read-edn-value [v]
   (when v
