@@ -2,15 +2,16 @@
   (:refer-clojure :exclude [count get keys vals empty? reset!])
   (:require
     [cljs.reader :as reader]
-    [goog.net.cookies]
     [goog.net.Cookies :refer [SetOptions]]))
+
+(defonce ^:dynamic *cookies* (or goog.net.cookies (.getInstance goog.net.Cookies)))
 
 ;Pre Google Closure library v20200204
 (defonce ^:private legacy-setter?
-  (delay (= 6 (.-length goog.net.cookies.set))))
+  (delay (= 6 (.-length (.-set *cookies*)))))
 
 (defn supports-same-site?
-  "True if the the underlying version of `goog.net.cookies` supports the same-site attribute
+  "True if the underlying version of `goog.net.Cookies` supports the same-site attribute
    when setting cookies
   "
   []
@@ -33,13 +34,13 @@
                   (pr-str content))]
     (cond
       (not (dissoc opts :raw?))
-      (.set goog.net.cookies k content)
+      (.set *cookies* k content)
 
       @legacy-setter?
-      (.set goog.net.cookies k content (or max-age -1) path domain (boolean secure?))
+      (.set *cookies* k content (or max-age -1) path domain (boolean secure?))
 
       :else
-      (.set goog.net.cookies k content
+      (.set *cookies* k content
             (doto (SetOptions.)
               (set! -maxAge (or max-age -1))
               (set! -path path)
@@ -58,7 +59,7 @@
 
 (defn- get-value
   [k r default]
-  (or (->> (name k) (.get goog.net.cookies) r) default))
+  (or (->> (name k) (.get *cookies*) r) default))
 
 (defn get
   "gets the value at the key (as edn), optional default when value is not found"
@@ -73,46 +74,46 @@
 (defn contains-key?
   "is the key present in the cookies"
   [k]
-  (.containsKey goog.net.cookies (name k)))
+  (.containsKey *cookies* (name k)))
 
 (defn contains-val?
   "is the value present in the cookies (as string)"
   [v]
-  (.containsValue goog.net.cookies v))
+  (.containsValue *cookies* v))
 
 (defn count
   "returns the number of cookies"
   []
-  (.getCount goog.net.cookies))
+  (.getCount *cookies*))
 
 (defn keys
   "returns all the keys for the cookies"
   []
-  (map keyword (.getKeys goog.net.cookies)))
+  (map keyword (.getKeys *cookies*)))
 
 (defn vals
   "returns cookie values (as edn)"
   []
-  (map read-edn-value (.getValues goog.net.cookies)))
+  (map read-edn-value (.getValues *cookies*)))
 
 (defn raw-vals
   "returns cookie values (as strings)"
   []
-  (map read-raw-value (.getValues goog.net.cookies)))
+  (map read-raw-value (.getValues *cookies*)))
 
 (defn empty?
   "true if no cookies are set"
   []
-  (.isEmpty goog.net.cookies))
+  (.isEmpty *cookies*))
 
 (defn remove!
   "removes a cookie, optionally for a specific path and/or domain"
   ([k]
-   (.remove goog.net.cookies (name k)))
+   (.remove *cookies* (name k)))
   ([k path domain]
-   (.remove goog.net.cookies (name k) path domain)))
+   (.remove *cookies* (name k) path domain)))
 
 (defn clear!
   "removes all cookies"
   []
-  (.clear goog.net.cookies))
+  (.clear *cookies*))
