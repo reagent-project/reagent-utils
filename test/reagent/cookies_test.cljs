@@ -5,14 +5,11 @@
     [reagent.cookies :as cookies]))
 
 (defn- stub-cookies [f]
-  (let [old (.getInstance goog.net.Cookies)
-        stub (new goog.net.Cookies nil)]
-    (set! goog.net.cookies stub) ;NOTE the google closure library marks this method as deprecated
-    (f)
-    (set! goog.net.cookies old)))
+  (binding [cookies/*cookies* (new goog.net.Cookies nil)]
+    (f)))
 
 (defn- raw-cookie-val []
-  (-> goog.net.cookies
+  (-> cookies/*cookies*
       (.-document_)
       (.-cookie)))
 
@@ -24,11 +21,11 @@
     (is (= (cookies/get :non-existent "default-val") "default-val")))
 
   (testing "get reads edn from cookie"
-    (.set goog.net.cookies "some-cookie" "{:edn 123}")
+    (.set cookies/*cookies* "some-cookie" "{:edn 123}")
     (is (= (cookies/get :some-cookie) {:edn 123})))
 
   (testing "get can't read invalid edn from cookie"
-    (.set goog.net.cookies "some-cookie" "123abc")
+    (.set cookies/*cookies* "some-cookie" "123abc")
     (is (thrown-with-msg? js/Error #"Invalid number: 123abc" (cookies/get :some-cookie))))
 
   (testing "get raw provides default value if cookie not set"
@@ -36,18 +33,18 @@
 
   (testing "set writes raw string to cookie"
     (cookies/set! :some-cookie "123abc" {:raw? true})
-    (is (= (.get goog.net.cookies "some-cookie") "123abc")))
+    (is (= (.get cookies/*cookies* "some-cookie") "123abc")))
 
   (testing "get reads raw string from cookie"
-    (.set goog.net.cookies "some-cookie" "123abc")
+    (.set cookies/*cookies* "some-cookie" "123abc")
     (is (= (cookies/get-raw :some-cookie) "123abc")))
 
   (testing "get reads edn vals from cookie"
-    (.set goog.net.cookies "some-cookie" "{:edn 123}")
+    (.set cookies/*cookies* "some-cookie" "{:edn 123}")
     (is (= (cookies/vals) [{:edn 123}])))
 
   (testing "get reads raw vals from cookie"
-    (.set goog.net.cookies "some-cookie" "123abc")
+    (.set cookies/*cookies* "some-cookie" "123abc")
     (is (= (cookies/raw-vals) ["123abc"])))
 
   (testing "can specify options"
