@@ -33,7 +33,7 @@
                   (str content)
                   (pr-str content))]
     (cond
-      (not (dissoc opts :raw?))
+      (clojure.core/empty? (dissoc opts :raw?))
       (.set *cookies* k content)
 
       @legacy-setter?
