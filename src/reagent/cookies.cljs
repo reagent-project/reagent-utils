@@ -49,7 +49,8 @@
               (set! -sameSite (condp = same-site
                                 :strict (.-STRICT goog.net.Cookies.SameSite)
                                 :lax (.-LAX goog.net.Cookies.SameSite)
-                                (.-NONE goog.net.Cookies.SameSite))))))))
+                                :none (.-NONE goog.net.Cookies.SameSite)
+                                nil)))))))
 
 (defn- read-edn-value [v]
   (when v
